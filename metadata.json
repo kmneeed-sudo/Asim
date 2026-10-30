@@ -1,0 +1,6 @@
+{
+  "name": "HardwarePro POS & Inventory - دکان کا حساب کتاب",
+  "description": "Offline-first hardware shop inventory, POS billing, customer udhaar khata, and daily hisab-kitab manager with fast first-word search and thermal printing.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
