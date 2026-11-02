@@ -82,7 +82,7 @@ Contact: ${settings.phone}`;
               {bill.items.map((item, idx) => (
                 <div key={idx} className="grid grid-cols-12 py-1 text-[11px] border-b border-slate-100 last:border-0">
                   <span className="col-span-6 truncate">{item.name}</span>
-                  <span className="col-span-2 text-center">{item.qty}</span>
+                  <span className="col-span-2 text-center">{item.qty} {item.unit || ''}</span>
                   <span className="col-span-2 text-right">{item.rate}</span>
                   <span className="col-span-2 text-right font-semibold">{item.total}</span>
                 </div>
@@ -110,13 +110,37 @@ Contact: ${settings.phone}`;
                 <span className="uppercase font-medium">{bill.paymentMethod}</span>
               </div>
               <div className="flex justify-between text-slate-600">
-                <span>Paid:</span>
+                <span>Paid Amount:</span>
                 <span>Rs. {bill.paidAmount}</span>
               </div>
+              {bill.cashReceived !== undefined && bill.cashReceived > 0 && (
+                <div className="flex justify-between text-slate-600">
+                  <span>Cash Received:</span>
+                  <span>Rs. {bill.cashReceived}</span>
+                </div>
+              )}
+              {bill.changeReturn !== undefined && bill.changeReturn > 0 && (
+                <div className="flex justify-between text-emerald-700 font-bold">
+                  <span>Change Return (بقایا واپس):</span>
+                  <span>Rs. {bill.changeReturn}</span>
+                </div>
+              )}
               {bill.balanceAmount > 0 && (
                 <div className="flex justify-between text-amber-700 font-bold">
-                  <span>Udhaar Balance:</span>
+                  <span>Bill Udhaar:</span>
                   <span>Rs. {bill.balanceAmount}</span>
+                </div>
+              )}
+              {bill.previousBalance !== undefined && bill.previousBalance > 0 && (
+                <div className="flex justify-between text-slate-500 pt-1 border-t border-dashed border-slate-200">
+                  <span>Purana Udhaar:</span>
+                  <span>Rs. {bill.previousBalance}</span>
+                </div>
+              )}
+              {bill.previousBalance !== undefined && (bill.previousBalance > 0 || bill.balanceAmount > 0) && (
+                <div className="flex justify-between text-red-700 font-bold">
+                  <span>Kul Khata Balance:</span>
+                  <span>Rs. {(bill.previousBalance || 0) + (bill.balanceAmount || 0)}</span>
                 </div>
               )}
             </div>

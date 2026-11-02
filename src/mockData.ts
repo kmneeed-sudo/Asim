@@ -1,15 +1,16 @@
 import { InventoryItem, Customer, Supplier, Expense, ShopSettings } from './types';
 
 export const INITIAL_SETTINGS: ShopSettings = {
-  shopNameUr: 'المکہ ہارڈویئر اینڈ سنٹری سٹور',
-  shopNameEn: 'Al-Makkah Hardware & Sanitary Store',
-  ownerName: 'Muhammad Tariq',
+  shopNameUr: 'عاصم ہارڈویئر سٹور',
+  shopNameEn: 'Asim Hardware Store',
+  ownerName: 'عاصم صاحب',
   phone: '+92 300 1234567',
-  address: 'Main Bazaar, Near Chowk, City',
+  address: 'مین بازار، نزد چوک، شہر',
   printerSize: '80mm',
   taxPercent: 0,
   footerNote: 'شکریہ! سامان تبدیل کرانے کی مدت 3 دن ہے (رسید لازمی ہے)',
   editDeletePassword: '1122',
+  posViewMode: 'grid',
 };
 
 export const INITIAL_INVENTORY: InventoryItem[] = [

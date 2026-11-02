@@ -21,6 +21,7 @@ export interface BillItem {
   rate: number;
   discount: number; // percentage or flat
   total: number;
+  unit?: string;
 }
 
 export interface Bill {
@@ -33,10 +34,14 @@ export interface Bill {
   subtotal: number;
   discount: number;
   total: number;
-  paymentMethod: 'Cash' | 'UPI/Bank' | 'Udhaar';
+  paymentMethod: 'Cash' | 'UPI/Bank' | 'Udhaar' | 'Partial';
   paidAmount: number;
   balanceAmount: number;
+  cashReceived?: number;
+  changeReturn?: number;
+  previousBalance?: number;
   cashierName: string;
+  notes?: string;
 }
 
 export interface Customer {
@@ -89,4 +94,6 @@ export interface ShopSettings {
   taxPercent: number;
   footerNote: string;
   editDeletePassword: string;
+  posViewMode?: 'grid' | 'list';
 }
+

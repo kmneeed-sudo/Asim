@@ -114,10 +114,38 @@ export const InventoryManager: React.FC<InventoryManagerProps> = ({
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto pb-24 xl:pb-6">
+      {/* Top Header Row with Add Item Button */}
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs">
+        <div>
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white">📦 سامان انوینٹری (Stock & Inventory)</h2>
+          <p className="text-xs text-slate-500">نیا سامان شامل کریں، قیمتیں اور سٹاک تبدیل کریں یا ڈیلیٹ کریں</p>
+        </div>
+        <button
+          onClick={() => {
+            setEditingItem(null);
+            setFormData({
+              name: '',
+              category: 'Plumbing',
+              barcode: '',
+              purchasePrice: 0,
+              sellingPrice: 0,
+              stock: 0,
+              minStock: 10,
+              unit: 'pcs',
+            });
+            setShowAddModal(true);
+          }}
+          className="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-xs transition-colors shrink-0"
+        >
+          <Plus className="w-4 h-4" />
+          <span>+ نیا سامان شامل کریں (Add Item)</span>
+        </button>
+      </div>
+
       {/* Tip Banner */}
       <div className="bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 p-3 rounded-xl flex items-center gap-2 text-xs text-amber-800 dark:text-amber-300">
         <Info className="w-4 h-4 shrink-0 text-amber-600" />
-        <span>ٹپ: کسی بھی سامان پر کلک کر کے رکھیں (Long Press) یا رائٹ کلک کریں تاکہ بارکوڈ، خرید قیمت، ایڈٹ اور ڈیلیٹ کا مینو ظاہر ہو۔</span>
+        <span>ٹیبل میں کسی بھی سامان کے سامنے "ایڈٹ" یا "ڈیلیٹ" بٹن پر کلک کریں یا رو (Row) پر کلک کر کے مکمل تفصیلا ت دیکھیں۔</span>
       </div>
 
       {/* Search & Category Filter */}
@@ -155,15 +183,17 @@ export const InventoryManager: React.FC<InventoryManagerProps> = ({
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                <th className="p-4">Item Name</th>
+                <th className="p-4">Item Name (سامان کا نام)</th>
+                <th className="p-4">Category</th>
                 <th className="p-4">Selling Rate</th>
                 <th className="p-4">Stock Status</th>
+                <th className="p-4 text-center">Actions (ایکشنز)</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-sm">
               {filteredItems.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="text-center py-8 text-slate-400">
+                  <td colSpan={5} className="text-center py-8 text-slate-400">
                     کوئی سامان نہیں ملا
                   </td>
                 </tr>
@@ -173,18 +203,15 @@ export const InventoryManager: React.FC<InventoryManagerProps> = ({
                   return (
                     <tr
                       key={item.id}
-                      onMouseDown={() => handleTouchStart(item)}
-                      onMouseUp={handleTouchEnd}
-                      onTouchStart={() => handleTouchStart(item)}
-                      onTouchEnd={handleTouchEnd}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        setSelectedRowItem(item);
-                      }}
-                      className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer select-none"
+                      onClick={() => setSelectedRowItem(item)}
+                      className="hover:bg-amber-50/40 dark:hover:bg-slate-800/40 transition-colors cursor-pointer select-none"
                     >
                       <td className="p-4 font-bold text-slate-900 dark:text-white">
                         {item.name}
+                        {item.barcode && <span className="block text-[11px] font-mono font-normal text-slate-400">{item.barcode}</span>}
+                      </td>
+                      <td className="p-4 text-xs text-slate-600 dark:text-slate-400 font-medium">
+                        {item.category}
                       </td>
                       <td className="p-4 font-mono font-bold text-slate-900 dark:text-white">
                         Rs. {item.sellingPrice}
@@ -199,6 +226,26 @@ export const InventoryManager: React.FC<InventoryManagerProps> = ({
                               <AlertTriangle className="w-3 h-3 mr-0.5" /> Low Stock
                             </span>
                           )}
+                        </div>
+                      </td>
+                      <td className="p-4 text-center">
+                        <div className="flex items-center justify-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+                          <button
+                            onClick={() => handleAction('edit', item)}
+                            className="p-1.5 bg-amber-100 hover:bg-amber-200 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors"
+                            title="Edit Item"
+                          >
+                            <Edit className="w-3.5 h-3.5" />
+                            <span>ایڈٹ</span>
+                          </button>
+                          <button
+                            onClick={() => handleAction('delete', item)}
+                            className="p-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-950/60 text-red-700 dark:text-red-300 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors"
+                            title="Delete Item"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                            <span>ڈلیٹ</span>
+                          </button>
                         </div>
                       </td>
                     </tr>

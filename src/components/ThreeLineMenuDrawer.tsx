@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserRole, Language, ShopSettings } from '../types';
-import { Menu, X, Plus, Package, Users, Truck, DollarSign, Settings, Sparkles, Shield, Globe, RefreshCw, Download } from 'lucide-react';
+import { Menu, X, Plus, Package, Users, Truck, DollarSign, Settings, Sparkles, Shield, Globe, RefreshCw, Download, BarChart2, History } from 'lucide-react';
 
 interface ThreeLineMenuDrawerProps {
   isOpen: boolean;
@@ -49,6 +49,57 @@ export const ThreeLineMenuDrawer: React.FC<ThreeLineMenuDrawerProps> = ({
 
         {/* Drawer Links & Add Options */}
         <div className="flex-1 p-4 overflow-y-auto space-y-6 text-slate-800 dark:text-slate-200 text-sm">
+          {/* Section 0: Main Navigation (Suppliers & Reports / Air report) */}
+          <div className="space-y-2">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+              📂 مینو نیویگೇಷন (Sections)
+            </h4>
+            <div className="grid grid-cols-1 gap-2">
+              <button
+                onClick={() => {
+                  onClose();
+                  setCurrentTab('history');
+                }}
+                className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors text-left ${
+                  currentTab === 'history'
+                    ? 'bg-amber-600 text-white font-bold shadow-xs'
+                    : 'bg-slate-50 dark:bg-slate-800/60 hover:bg-amber-50 dark:hover:bg-amber-950/40'
+                }`}
+              >
+                <History className="w-4 h-4 text-amber-600" />
+                <span className="text-xs font-semibold">گزشتہ بلز / ہسٹری (Bill History)</span>
+              </button>
+              <button
+                onClick={() => {
+                  onClose();
+                  setCurrentTab('suppliers');
+                }}
+                className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors text-left ${
+                  currentTab === 'suppliers'
+                    ? 'bg-amber-600 text-white font-bold shadow-xs'
+                    : 'bg-slate-50 dark:bg-slate-800/60 hover:bg-amber-50 dark:hover:bg-amber-950/40'
+                }`}
+              >
+                <Truck className="w-4 h-4 text-amber-600" />
+                <span className="text-xs">سپلائر کھاتہ (Suppliers Ledger)</span>
+              </button>
+              <button
+                onClick={() => {
+                  onClose();
+                  setCurrentTab('hisab');
+                }}
+                className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors text-left ${
+                  currentTab === 'hisab'
+                    ? 'bg-amber-600 text-white font-bold shadow-xs'
+                    : 'bg-slate-50 dark:bg-slate-800/60 hover:bg-amber-50 dark:hover:bg-amber-950/40'
+                }`}
+              >
+                <BarChart2 className="w-4 h-4 text-amber-600" />
+                <span className="text-xs">حساب اور رپورٹس (Hisab & Reports)</span>
+              </button>
+            </div>
+          </div>
+
           {/* Section 1: Quick Add Shortcuts */}
           <div className="space-y-2">
             <h4 className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
@@ -104,8 +155,8 @@ export const ThreeLineMenuDrawer: React.FC<ThreeLineMenuDrawerProps> = ({
 
           {/* Section 2: App & Shop Settings */}
           <div className="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-800">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              ⚙️ دکان کی ترتیبات (Shop Settings)
+            <h4 className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+              ⚙️ دکان اور ایپ ترتیبات (Settings & Preferences)
             </h4>
             <div className="grid grid-cols-1 gap-2">
               <button
@@ -113,11 +164,15 @@ export const ThreeLineMenuDrawer: React.FC<ThreeLineMenuDrawerProps> = ({
                   onClose();
                   onOpenSettings();
                 }}
-                className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-left"
+                className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold shadow-xs hover:opacity-95 transition-all text-left"
               >
-                <Settings className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-                <span className="font-semibold text-xs">شاپ پروفائل اور پرنٹر سائز</span>
+                <Settings className="w-5 h-5 text-white shrink-0" />
+                <div className="flex flex-col">
+                  <span className="text-xs font-extrabold">تمام ترتیبات (All Settings & View)</span>
+                  <span className="text-[10px] text-amber-100 font-normal">گرڈ/کارڈ ویو، شاپ پروفائل، پاس ورڈ اور پرنٹر</span>
+                </div>
               </button>
+
               <button
                 onClick={() => {
                   onClose();
@@ -128,6 +183,7 @@ export const ThreeLineMenuDrawer: React.FC<ThreeLineMenuDrawerProps> = ({
                 <Sparkles className="w-4 h-4 text-amber-600" />
                 <span className="font-semibold text-xs">AI بزنس مشیر (Gemini AI)</span>
               </button>
+
               <button
                 onClick={() => {
                   onClose();
@@ -138,6 +194,7 @@ export const ThreeLineMenuDrawer: React.FC<ThreeLineMenuDrawerProps> = ({
                 <Shield className="w-4 h-4 text-slate-600 dark:text-slate-400" />
                 <span className="font-semibold text-xs">موجودہ رول: {role === 'admin' ? '👑 Admin' : '👷 Salesman'}</span>
               </button>
+
               <button
                 onClick={() => {
                   onClose();
